@@ -10,6 +10,10 @@
 
 Promise based HTTP client for the browser (based on XMLHttpRequest)
 
+## Note get put post delete this features are working fine
+
+## Note this library is frequently change some features may be add or not working Or changed or removed
+
 ## Features
 
 - Make [XMLHttpRequests](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) from the browser
