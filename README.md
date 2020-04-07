@@ -34,6 +34,7 @@ Promise based HTTP client for the browser (based on XMLHttpRequest)
 Using jsDelivr CDN:
 
 ```html
+<script src="https://github.com/kratos619/reqTojs/blob/master/dist/bundle.js"></script>
 <p>its coming soon u can find prod ready file in dist/bundle.js</p>
 ```
 
