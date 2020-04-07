@@ -39,7 +39,7 @@ Performing a `GET` request
 
 ```js
 // Make a request for a user with a given ID
-axios
+reqTo
   .get("/user?ID=12345")
   .then(function (response) {
     // handle success
@@ -56,7 +56,7 @@ axios
 // Want to use async/await? Add the `async` keyword to your outer function/method.
 async function getUser() {
   try {
-    const response = await axios.get("/user?ID=12345");
+    const response = await reqTo.get("/user?ID=12345");
     console.log(response);
   } catch (error) {
     console.error(error);
@@ -70,7 +70,7 @@ async function getUser() {
 Performing a `POST` request
 
 ```js
-axios
+reqTo
   .post("/user", {
     firstName: "Fred",
     lastName: "Flintstone",
@@ -81,24 +81,6 @@ axios
   .catch(function (error) {
     console.log(error);
   });
-```
-
-## axios API
-
-Requests can be made by passing the relevant config to `axios`.
-
-##### axios(config)
-
-```js
-// Send a POST request
-axios({
-  method: "post",
-  url: "/user/12345",
-  data: {
-    firstName: "Fred",
-    lastName: "Flintstone",
-  },
-});
 ```
 
 ## Response Schema
@@ -122,7 +104,7 @@ The response for a request contains the following information.
 When using `then`, you will receive the response as follows:
 
 ```js
-axios.get("/user/12345").then(function (response) {
+reqTo.get("/user/12345").then(function (response) {
   console.log(response.data);
   console.log(response.status);
   console.log(response.statusText);
@@ -135,7 +117,7 @@ When using `catch`, or passing a [rejection callback](https://developer.mozilla.
 
 ## Credits
 
-reqTo is heavily inspired by the [axios](https://github.com/axios/axios).
+reqTo is heavily inspired by the [reqTo](https://github.com/axios/axios).
 
 ## License
 
