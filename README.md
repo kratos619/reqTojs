@@ -117,7 +117,7 @@ When using `catch`, or passing a [rejection callback](https://developer.mozilla.
 
 ## Credits
 
-reqTo is heavily inspired by the [reqTo](https://github.com/axios/axios).
+reqTo is heavily inspired by the [axios](https://github.com/axios/axios).
 
 ## License
 
