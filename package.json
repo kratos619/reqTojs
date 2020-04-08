@@ -1,15 +1,20 @@
 {
-  "name": "webpack_with_bable",
+  "name": "Reqto",
   "version": "1.0.0",
-  "description": "",
+  "description": "Promise based HTTP client for the browser",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "start:dev": "webpack-dev-server --output-public-path=/dist/ --progress --hot"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "xhr",
+    "http",
+    "ajax",
+    "promise"
+  ],
+  "author": "Gaurav Palaspagar",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
