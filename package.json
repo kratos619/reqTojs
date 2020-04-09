@@ -1,12 +1,14 @@
 {
-  "name": "Reqto",
+  "name": "reqto",
   "version": "1.0.0",
   "description": "Promise based HTTP client for the browser",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start:dev": "webpack-dev-server --output-public-path=/dist/ --progress --hot"
+    "start:dev": "webpack-dev-server --output-public-path=/dist/ --progress --hot",
+    "build:prod": "node_modules/.bin/webpack --mode production",
+    "serve": "webpack-dev-server --mode development --hot -w --progress --output-public-path=/dist/"
   },
   "keywords": [
     "xhr",

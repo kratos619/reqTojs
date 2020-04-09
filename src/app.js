@@ -1,7 +1,9 @@
 (function (w, d) {
     class Request {
         constructor() {
-            this.xhr = new XMLHttpRequest
+            this.xhr = new XMLHttpRequest;
+            this.response = {}
+            this.response.config = {}
         }
 
         setHeaders(headers, reject) {
@@ -20,6 +22,30 @@
                 reject(new Error("Required URL"));
             }
         }
+        headersMap() {
+            var headers = this.xhr.getAllResponseHeaders();
+            var arr = headers.trim().split(/[\r\n]+/);
+            var headerMap = {};
+            arr.forEach(function (line) {
+                var parts = line.split(': ');
+                var header = parts.shift();
+                var value = parts.join(': ');
+                headerMap[header] = value;
+            });
+            return headerMap;
+        }
+
+        responseObj(methodType = "") {
+            this.response.data = JSON.parse(this.xhr.response);
+            this.response.status = this.xhr.status;
+            this.response.statusText = this.xhr.statusText;
+            this.response.headers = this.headersMap();
+            this.response.config.url = this.xhr.responseURL;
+            this.response.config.method = methodType;
+            this.response.config.headers = this.headersMap();
+            this.response.request = this.xhr;
+            return this.response;
+        }
 
         get(url, headers = '') {
             return new Promise((resolve, reject) => {
@@ -27,13 +53,11 @@
                 this.xhr.open("GET", url, true);
                 this.setHeaders(headers, reject)
                 this.xhr.onload = () => {
-                    let response;
                     if (this.xhr.status == 400 && this.xhr.readyState == 4) {
                         reject(new Error("url Found"))
                     }
                     if (this.xhr.status == 200 && this.xhr.readyState == 4) {
-                        response = this.xhr.responseText;
-                        resolve(response)
+                        resolve(this.responseObj("GET"))
                     }
                 }
                 this.xhr.send();
@@ -46,9 +70,7 @@
                 this.xhr.open('POST', url, true);
                 this.setHeaders(headers, reject)
                 this.xhr.onload = () => {
-                    let response;
-                    response = this.xhr.responseText;
-                    resolve(response)
+                    resolve(this.responseObj("POST"))
                 }
                 this.xhr.send(JSON.stringify(sentData))
             })
@@ -61,9 +83,9 @@
                 this.xhr.open("PUT", url, true);
                 this.setHeaders(headers, reject)
                 this.xhr.onload = () => {
-                    let response;
-                    response = this.xhr.responseText;
-                    resolve(response)
+                    this.xhr.onload = () => {
+                        resolve(this.responseObj("PUT"))
+                    }
                 }
                 this.xhr.send(JSON.stringify(sentData))
             })
@@ -76,10 +98,8 @@
                 this.xhr.open('DELETE', url, true);
                 this.setHeaders(headers, reject)
                 this.xhr.onload = () => {
-                    let response;
                     if (this.xhr.status == 200 && this.xhr.readyState == 4) {
-                        response = this.xhr.responseText;
-                        resolve(response)
+                        resolve(this.responseObj("DELETE"));
                     }
                 }
                 this.xhr.send();
@@ -87,6 +107,5 @@
         }
 
     }
-
     w.reqto = w.reqTo = w.Reqto = new Request();
 })(window, document)
