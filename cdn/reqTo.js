@@ -1,21 +1,57 @@
 "use strict";
 
-function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
+function _instanceof(left, right) {
+  if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+    return !!right[Symbol.hasInstance](left);
+  } else {
+    return left instanceof right;
+  }
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+  return _typeof(obj);
+}
 
-function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) {
+  if (!_instanceof(instance, Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
 (function (w, d) {
-  var Request = /*#__PURE__*/function () {
+  var Request = /*#__PURE__*/ function () {
     function Request() {
       _classCallCheck(this, Request);
 
       this.xhr = new XMLHttpRequest();
+      this.response = {};
+      this.response.config = {};
     }
 
     _createClass(Request, [{
@@ -39,6 +75,34 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         }
       }
     }, {
+      key: "headersMap",
+      value: function headersMap() {
+        var headers = this.xhr.getAllResponseHeaders();
+        var arr = headers.trim().split(/[\r\n]+/);
+        var headerMap = {};
+        arr.forEach(function (line) {
+          var parts = line.split(': ');
+          var header = parts.shift();
+          var value = parts.join(': ');
+          headerMap[header] = value;
+        });
+        return headerMap;
+      }
+    }, {
+      key: "responseObj",
+      value: function responseObj() {
+        var methodType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+        this.response.data = JSON.parse(this.xhr.response);
+        this.response.status = this.xhr.status;
+        this.response.statusText = this.xhr.statusText;
+        this.response.headers = this.headersMap();
+        this.response.config.url = this.xhr.responseURL;
+        this.response.config.method = methodType;
+        this.response.config.headers = this.headersMap();
+        this.response.request = this.xhr;
+        return this.response;
+      }
+    }, {
       key: "get",
       value: function get(url) {
         var _this = this;
@@ -52,15 +116,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           _this.setHeaders(headers, reject);
 
           _this.xhr.onload = function () {
-            var response;
-
             if (_this.xhr.status == 400 && _this.xhr.readyState == 4) {
               reject(new Error("url Found"));
             }
 
             if (_this.xhr.status == 200 && _this.xhr.readyState == 4) {
-              response = _this.xhr.responseText;
-              resolve(response);
+              resolve(_this.responseObj("GET"));
             }
           };
 
@@ -80,9 +141,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           _this2.setHeaders(headers, reject);
 
           _this2.xhr.onload = function () {
-            var response;
-            response = _this2.xhr.responseText;
-            resolve(response);
+            resolve(_this2.responseObj("POST"));
           };
 
           _this2.xhr.send(JSON.stringify(sentData));
@@ -101,9 +160,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           _this3.setHeaders(headers, reject);
 
           _this3.xhr.onload = function () {
-            var response;
-            response = _this3.xhr.responseText;
-            resolve(response);
+            _this3.xhr.onload = function () {
+              resolve(_this3.responseObj("PUT"));
+            };
           };
 
           _this3.xhr.send(JSON.stringify(sentData));
@@ -123,11 +182,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           _this4.setHeaders(headers, reject);
 
           _this4.xhr.onload = function () {
-            var response;
-
             if (_this4.xhr.status == 200 && _this4.xhr.readyState == 4) {
-              response = _this4.xhr.responseText;
-              resolve(response);
+              resolve(_this4.responseObj("DELETE"));
             }
           };
 
