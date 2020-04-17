@@ -54,9 +54,6 @@ reqTo
     // handle error
     console.log(error);
   })
-  .then(function () {
-    // always executed
-  });
 
 // Want to use async/await? Add the `async` keyword to your outer function/method.
 async function getUser() {
@@ -79,6 +76,8 @@ reqTo
   .post("/user", {
     firstName: "Fred",
     lastName: "Flintstone",
+  },{
+    "content-type":"application/json"
   })
   .then(function (response) {
     console.log(response);

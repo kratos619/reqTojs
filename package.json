@@ -1,8 +1,9 @@
 {
-  "name": "reqto",
+  "name": "test900",
   "version": "1.0.0",
   "description": "Promise based HTTP client for the browser",
-  "private": true,
+  "private": false,
+  "main": "dist/reqTo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
@@ -11,7 +12,7 @@
     "serve": "webpack-dev-server --mode development --hot -w --progress --output-public-path=/dist/"
   },
   "keywords": [
-    "xhr",
+    "reqto",
     "http",
     "ajax",
     "promise"
