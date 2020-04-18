@@ -34,8 +34,7 @@ Promise based HTTP client for the browser (based on XMLHttpRequest)
 Using jsDelivr CDN:
 
 ```html
-<script src="https://raw.githubusercontent.com/kratos619/reqTojs/master/cdn/reqTo.js"></script>
-<p>its coming soon u can find prod ready file in cdn/reqTo.js</p>
+<p>CDN is coming soon Grab your reqto.js file from dist/reqTo.js</p>
 ```
 
 ## Example

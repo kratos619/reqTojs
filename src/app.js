@@ -2,8 +2,11 @@
     class Request {
         constructor() {
             this.xhr = new XMLHttpRequest;
-            this.response = {}
-            this.response.config = {}
+            this.response = {};
+            this.response.config = {};
+            this.defaultHeaders = {
+                "Content-type": "application/json"
+            }
         }
 
         setHeaders(headers, reject) {
@@ -35,8 +38,9 @@
             return headerMap;
         }
 
-        responseObj(methodType = "") {
-            this.response.data = JSON.parse(this.xhr.response);
+        responseObj(methodType = "", responsePost) {
+
+            this.response.data = JSON.parse(this.xhr.responseText);
             this.response.status = this.xhr.status;
             this.response.statusText = this.xhr.statusText;
             this.response.headers = this.headersMap();
@@ -47,7 +51,7 @@
             return this.response;
         }
 
-        get(url, headers = '') {
+        get(url, headers = this.defaultHeaders) {
             return new Promise((resolve, reject) => {
                 this.validationPostRequest(url, reject);
                 this.xhr.open("GET", url, true);
@@ -64,7 +68,7 @@
             });
         }
 
-        post(url, sentData, headers) {
+        post(url, sentData, headers = this.defaultHeaders) {
             return new Promise((resolve, reject) => {
                 this.validationPostRequest(url, reject);
                 this.xhr.open('POST', url, true);
@@ -77,7 +81,7 @@
 
         }
 
-        put(url, sentData, headers) {
+        put(url, sentData, headers = this.defaultHeaders) {
             return new Promise((resolve, reject) => {
                 this.validationPostRequest(url, reject);
                 this.xhr.open("PUT", url, true);
@@ -92,7 +96,7 @@
 
         }
 
-        delete(url, headers = '') {
+        delete(url, headers = this.defaultHeaders) {
             return new Promise((resolve, reject) => {
                 this.validationPostRequest(url, reject);
                 this.xhr.open('DELETE', url, true);
