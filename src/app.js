@@ -5,11 +5,19 @@
             this.response = {};
             this.response.config = {};
             this.defaultHeaders = {
-                "Content-type": "application/json"
-            }
+                "Content-type": "application/json",
+                "Accept": "application/json, text/plain, */*",
+                "X-Requested-With": "XMLHttpRequest"
+            };
+            this.error = "";
+            this.error.response = ""
         }
 
+
         setHeaders(headers, reject) {
+            for (let key in this.defaultHeaders) {
+                this.xhr.setRequestHeader(key, this.defaultHeaders[key]);
+            }
             if (typeof headers == 'object' || headers == '') {
                 for (let key in headers) {
                     this.xhr.setRequestHeader(key, headers[key]);
@@ -51,15 +59,31 @@
             return this.response;
         }
 
+        responseErrorStatusHandler(statusCode, type, reject) {
+            let _errorResObj = {};
+            let errorRes = "";
+            this.error = "Request failed with status code " + this.xhr.status;
+            if (statusCode !== 200) {
+                if (statusCode == 204) {
+                    _errorResObj.error = this.error;
+                    _errorResObj.errorRes = "No content Found"
+                    return reject(_errorResObj)
+                    // return _errorResObj;
+                }
+                errorRes = this.responseObj(type);
+                _errorResObj.error = this.error;
+                _errorResObj.response = errorRes;
+                return reject(_errorResObj)
+            }
+        }
+
         get(url, headers = this.defaultHeaders) {
             return new Promise((resolve, reject) => {
                 this.validationPostRequest(url, reject);
                 this.xhr.open("GET", url, true);
                 this.setHeaders(headers, reject)
                 this.xhr.onload = () => {
-                    if (this.xhr.status == 400 && this.xhr.readyState == 4) {
-                        reject(new Error("url Found"))
-                    }
+                    this.responseErrorStatusHandler(this.xhr.status, "GET", reject)
                     if (this.xhr.status == 200 && this.xhr.readyState == 4) {
                         resolve(this.responseObj("GET"))
                     }
@@ -68,26 +92,30 @@
             });
         }
 
-        post(url, sentData, headers = this.defaultHeaders) {
+        post(url, sentData, headers) {
             return new Promise((resolve, reject) => {
                 this.validationPostRequest(url, reject);
                 this.xhr.open('POST', url, true);
                 this.setHeaders(headers, reject)
                 this.xhr.onload = () => {
-                    resolve(this.responseObj("POST"))
+                    this.responseErrorStatusHandler(this.xhr.status, "POST", reject)
+                    if (this.xhr.status == 200 && this.xhr.readyState == 4) {
+                        resolve(this.responseObj("POST"))
+                    }
                 }
                 this.xhr.send(JSON.stringify(sentData))
             })
 
         }
 
-        put(url, sentData, headers = this.defaultHeaders) {
+        put(url, sentData, headers) {
             return new Promise((resolve, reject) => {
                 this.validationPostRequest(url, reject);
                 this.xhr.open("PUT", url, true);
                 this.setHeaders(headers, reject)
                 this.xhr.onload = () => {
-                    this.xhr.onload = () => {
+                    this.responseErrorStatusHandler(this.xhr.status, "PUT", reject)
+                    if (this.xhr.status == 200 && this.xhr.readyState == 4) {
                         resolve(this.responseObj("PUT"))
                     }
                 }
@@ -96,14 +124,15 @@
 
         }
 
-        delete(url, headers = this.defaultHeaders) {
+        delete(url, headers) {
             return new Promise((resolve, reject) => {
                 this.validationPostRequest(url, reject);
                 this.xhr.open('DELETE', url, true);
                 this.setHeaders(headers, reject)
                 this.xhr.onload = () => {
+                    this.responseErrorStatusHandler(this.xhr.status, "DELETE", reject)
                     if (this.xhr.status == 200 && this.xhr.readyState == 4) {
-                        resolve(this.responseObj("DELETE"));
+                        resolve(this.responseObj("DELETE"))
                     }
                 }
                 this.xhr.send();

@@ -53,10 +53,7 @@ reqTo
     // handle error
     console.log(error);
   })
-  .then(function () {
-    // always executed
-  });
-
+  
 // Want to use async/await? Add the `async` keyword to your outer function/method.
 async function getUser() {
   try {
@@ -98,7 +95,6 @@ The response for a request contains the following information.
 
 
   // `headers` the HTTP headers that the server responded with
-  // All header names are lower cased and can be accessed using the bracket notation.
   // Example: `response.headers['content-type']`
   headers: {},
 
