@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "start:dev": "webpack-dev-server --output-public-path=/dist/ --progress --hot",
-    "build:prod": "node_modules/.bin/webpack --mode production",
+    "build:prod": "node_modules/.bin/webpack --mode development",
     "serve": "webpack-dev-server --mode development --hot -w --progress --output-public-path=/dist/"
   },
   "keywords": [
