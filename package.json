@@ -1,5 +1,5 @@
 {
-  "name": "reqto",
+  "name": "request-to",
   "version": "1.0.0",
   "description": "Promise based HTTP client for the browser",
   "private": false,
@@ -21,9 +21,19 @@
   "author": "Gaurav Palaspagar",
   "license": "ISC",
   "dependencies": {
-
+    "@babel/polyfill": "^7.8.7",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.42.1",
+    "webpack-dev-server": "^3.10.3"
   },
   "devDependencies": {
-
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-stage-0": "^7.8.3",
+    "babel-polyfill": "^6.26.0",
+    "webpack-cli": "^3.3.11"
   }
 }
