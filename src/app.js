@@ -140,6 +140,7 @@ const reqto = (function (w, d) {
         }
 
     }
+    w.reqTo = w.reqto = new RequestTo();
     return new RequestTo();
 })(window, document);
 export default reqto;
