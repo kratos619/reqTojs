@@ -1,6 +1,6 @@
 {
   "name": "request-to",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Promise based HTTP client for the browser",
   "private": false,
   "main": "src/reqTo.js",
@@ -10,7 +10,6 @@
     "start:dev": "webpack-dev-server --output-public-path=/dist/ --progress --hot",
     "build:prod": "node_modules/.bin/webpack --mode production",
     "serve": "webpack-dev-server --mode development --hot -w --progress --output-public-path=/dist/"
-
   },
   "keywords": [
     "reqto",
