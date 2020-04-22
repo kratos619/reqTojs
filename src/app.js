@@ -1,5 +1,4 @@
-module.exports = (function (w, d) {
-
+const reqto = (function (w, d) {
     class RequestTo {
         constructor() {
             this.xhr = new XMLHttpRequest;
@@ -10,8 +9,8 @@ module.exports = (function (w, d) {
                 "Accept": "application/json, text/plain, */*",
                 "X-Requested-With": "XMLHttpRequest"
             };
-            this.error = "";
-            this.error.response = "";
+            this.error = {};
+            this.error.response = {};
         }
 
 
@@ -141,8 +140,6 @@ module.exports = (function (w, d) {
         }
 
     }
-    // const reqTo = new RequestTo();
-    // console.log('inside', reqTo);
-    // module.exports = reqTo;
-    // return reqTo;
+    return new RequestTo();
 })(window, document);
+export default reqto;
