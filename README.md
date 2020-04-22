@@ -34,8 +34,15 @@ Promise based HTTP client for the browser (based on XMLHttpRequest)
 Using jsDelivr CDN:
 
 ```html
-<script src="https://raw.githubusercontent.com/kratos619/reqTojs/master/cdn/reqTo.js"></script>
-<p>its coming soon u can find prod ready file in cdn/reqTo.js</p>
+<p>CDN is coming soon Grab your reqto.js file from dist/reqTo.js</p>
+
+```
+
+## Or
+
+
+```html
+npm install --save request-to
 ```
 
 ## Example
@@ -54,7 +61,7 @@ reqTo
     // handle error
     console.log(error);
   })
-
+  
 // Want to use async/await? Add the `async` keyword to your outer function/method.
 async function getUser() {
   try {
@@ -76,8 +83,6 @@ reqTo
   .post("/user", {
     firstName: "Fred",
     lastName: "Flintstone",
-  },{
-    "content-type":"application/json"
   })
   .then(function (response) {
     console.log(response);
@@ -98,7 +103,6 @@ The response for a request contains the following information.
 
 
   // `headers` the HTTP headers that the server responded with
-  // All header names are lower cased and can be accessed using the bracket notation.
   // Example: `response.headers['content-type']`
   headers: {},
 
