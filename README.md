@@ -123,6 +123,22 @@ reqTo.get("/user/12345").then(function (response) {
 
 When using `catch`, or passing a [rejection callback](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) as second parameter of `then`, the response will be available through the `error` object as explained in the [Handling Errors](#handling-errors) section.
 
+## Working With Laravel
+```js
+//in project folder resources/js/bootstrap.js
+import reqto from 'request-to';
+window.reqto = reqto;
+
+let token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+    window.reqto.defaultHeaders['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+```
+
 ## Credits
 
 reqTo is heavily inspired by the [axios](https://github.com/axios/axios).
